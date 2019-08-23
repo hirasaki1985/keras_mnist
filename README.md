@@ -27,7 +27,9 @@ $ source ~/.bash_profile
 
 ```
 $ pyenv install anaconda3-5.3.1
-$ pyenv local anaconda3-5.3.1
+$ pyenv virtualenv anaconda3-5.3.1 keras-mnist
+$ pyenv local keras-mnist
+$ pip install -r requirements.txt
 ```
 
 ### 確認
@@ -54,14 +56,10 @@ $ jupyter notebook
 
 
 ## Chapter.2
-### 環境構築
+### 実行
 ```
-$ pyenv virtualenv anaconda3-5.3.1 keras-mnist
-$ pyenv local keras-mnist
-$ pip install -r requirements.txt
 ```
 
-```
 
 ## トラブルシューティング
 ### インストール時権限でpyenv installができない場合
