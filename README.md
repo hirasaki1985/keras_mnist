@@ -58,7 +58,11 @@ $ jupyter notebook
 ## Chapter.2
 ### 実行
 ```
+$ export FLASK_APP=server.py
+$ flask run
 ```
+
+[http://127.0.0.1:5000/](http://127.0.0.1:5000/)
 
 
 ## トラブルシューティング
