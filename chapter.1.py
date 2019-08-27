@@ -213,5 +213,5 @@ model.save_weights(weight_save_path)
 
 model_json = model.to_json()
 with open(model_save_path, "w") as json_file:
-    json.dump(model_json, json_file)
+    json_file.write(model_json)
 
