@@ -81,9 +81,11 @@ $ sudo chown -R $(whoami) $(brew --prefix)/*
 ```
 
 ## 参考
-[keras/examples/mnist_mlp.py](https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py)
-[Build the MNIST model with your own handwritten digits using TensorFlow, Keras, and Python](https://medium.com/@ashok.tankala/build-the-mnist-model-with-your-own-handwritten-digits-using-tensorflow-keras-and-python-f8ec9f871fd3)
-[Python NumPy Array Tutorial](https://likegeeks.com/numpy-array-tutorial/)
-[How to Save and Load Your Keras Deep Learning Model
+* [keras/examples/mnist_mlp.py](https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py)
+* [Build the MNIST model with your own handwritten digits using TensorFlow, Keras, and Python](https://medium.com/@ashok.tankala/build-the-mnist-model-with-your-own-handwritten-digits-using-tensorflow-keras-and-python-f8ec9f871fd3)
+* [Python NumPy Array Tutorial](https://likegeeks.com/numpy-array-tutorial/)
+* [How to Save and Load Your Keras Deep Learning Model
 ](https://machinelearningmastery.com/save-load-keras-deep-learning-models/)
-[MNISTの画像をPNGに変換してみた](https://water2litter.net/rum/post/ai_mnist_convert/)
+* [MNISTの画像をPNGに変換してみた](https://water2litter.net/rum/post/ai_mnist_convert/)
+* [ゼロから作るDeep Learning ―Pythonで学ぶディープラーニングの理論と実装](https://amzn.to/2ZmqDWP)
+* [PythonとKerasによるディープラーニング](https://amzn.to/2Ph6fm6)
