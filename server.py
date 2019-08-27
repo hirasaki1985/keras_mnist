@@ -1,11 +1,18 @@
 # -*- coding: utf-8 -*-
 
+import json
 from flask import Flask, render_template, make_response, request, jsonify
-# import cgi
+from PIL import Image
 import base64
+from io import BytesIO
+import numpy as np
 from app.ai import AI
 from app.utils import log
+from app.utils.MnistImageManager import MnistImageManager
+
+# modules
 logger = log.get()
+imageManager = MnistImageManager()
 
 app = Flask(__name__)
 ai = AI()
@@ -29,31 +36,41 @@ def predict():
   if end_file_key_name not in request.form:
     return jsonify({"result":"error"})
 
-  request_file = request.form[end_file_key_name]
-  # logger.debug(request_file)
-  # request_file = base64.b64decode(contentDataAscii)
-
-
-  # content = request.data[end_file_key_name]
-  # result = controller.predict(request.data[end_file_key_name])
-  # logger.debug(result)
-
-  # validate
-  # if send_file_key_name not in request.files:
-  #   make_response(jsonify({'result':'uploadFile is required.'}))
-  #   return
+  request_img_file = request.form[end_file_key_name]
+  logger.debug(request_img_file)
 
   # get image
-  # img_file = request.files[send_file_key_name]
+  image = Image.open(BytesIO(base64.b64decode(request_img_file)))
+
+  # get mnist image
+  x_test = imageManager.getMnistImage(image)
+  logger.debug(x_test.shape)
+
+  # reshape mnist image
+  input_arr = np.array(x_test)
+  input_arr = input_arr.reshape(1, 784)
+  logger.debug(input_arr.shape)
 
   # save
   # request_file.save(os.path.join('predicts', 'image.png'))
 
   # predict
-  result = ai.predict(request_file)
+  predict_result = ai.predict(input_arr)
+  logger.debug(predict_result.shape)
+  logger.debug(predict_result)
+
+  # result
+  accuracy = json.dumps(predict_result[0].tolist())
+  max = int(np.argmax(predict_result[0]))
+
+  # make response
+  result = {
+    "y":accuracy,
+    "max": max
+  }
 
   # response
-  return jsonify({"test":"test"})
+  return result
 
 if __name__ == '__main__':
   app.run()
