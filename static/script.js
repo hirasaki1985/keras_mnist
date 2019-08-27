@@ -1,5 +1,5 @@
 // var apiUrl = "http://" + location.host + ":8000";
-var apiUrl = "http://127.0.0.1:8000";
+var apiUrl = "http://127.0.0.1:5000/predict";
 
 $(function() {
   // view
@@ -136,4 +136,3 @@ $(function() {
   }
   mam_draw_init();
 });
-

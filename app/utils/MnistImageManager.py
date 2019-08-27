@@ -1,30 +1,32 @@
+# -*- coding: utf-8 -*-
 import numpy as np
 from PIL import Image
 import struct
 import glob
 
 class MnistImageManager:
-  #def __init__(self):
-  def getMnistDataFromPng(self, filename):
-    print("### MnistImageManager getMnistDataFromPng")
+  def getInputDataFromPng(self, filename):
+    print("MnistImageManager getInputDataFromPng")
     print("filename = " + filename)
-    #file = glob.glob(filename)
-    # make Label Data
-    #lbl = file.split('_')
-    #lbl = int(lbl[1])
-    #labl += struct.pack('B', lbl)
+
+    img = Image.open(filename).convert("L")
+    img = np.resize(img, (28,28,1))
+    # im2arr = np.array(img)
+    # im2arr = im2arr.reshape(1,28,28,1)
+    # features_data = np.append(features_data, im2arr, axis=0)
+    # label_data = np.append(label_data, [image_label], axis=0)
+
+    return img
+    # return features_data, label_data
+
+  #def __init__(self):
+  def getMnistImageFromPng(self, filename):
+    # print("MnistImageManager getMnistDataFromPng")
+    # print("filename = " + filename)
 
     image = Image.open(filename)
     img = self.getMnistImage(image)
 
-    #d = np.array(img)
-    #d = np.delete(d, 3, 2)   # index=3, axis=2 : RGBA -> RGB
-    #d = np.mean(d, 2)        # RGB -> L
-    #d = np.swapaxes(d, 0, 1)
-    #d = np.uint8(d.T.flatten('C'))    # [y][x] -> [y*x]
-    #ld = d.tolist()          # numpy object -> python list object
-    #append(struct.pack('784B', *ld))
-    #print(img.size)
     return img
 
   def getMnistImage(self, image):
@@ -39,8 +41,8 @@ class MnistImageManager:
     return img
 
   def getDataList(self, filter):
-    print("### MnistImageManager getDataList")
-    print("filter = " + filter)
+    # print("MnistImageManager getDataList")
+    # print("filter = " + filter)
     data = []
     label = []
     files = glob.glob(filter)
@@ -53,6 +55,6 @@ class MnistImageManager:
       #print (str(start) + " : " + str(end))
       #print (one[start + 1:start - end -2])
       label.append(int(one[start + 1:start - end -2]))
-    print(label)
+    # print(label)
     return data, label
 
