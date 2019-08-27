@@ -54,6 +54,11 @@ $ which jupyter
 $ jupyter notebook
 ```
 
+### コマンドラインから学習させる場合
+```
+$ python chapter.1.py
+```
+
 
 ## Chapter.2
 ### 実行
@@ -64,9 +69,21 @@ $ flask run
 
 [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
 
+### コマンドラインから推論させる場合
+```
+$ python predict.py
+```
 
 ## トラブルシューティング
 ### インストール時権限でpyenv installができない場合
 ```
 $ sudo chown -R $(whoami) $(brew --prefix)/*
 ```
+
+## 参考
+[keras/examples/mnist_mlp.py](https://github.com/keras-team/keras/blob/master/examples/mnist_mlp.py)
+[Build the MNIST model with your own handwritten digits using TensorFlow, Keras, and Python](https://medium.com/@ashok.tankala/build-the-mnist-model-with-your-own-handwritten-digits-using-tensorflow-keras-and-python-f8ec9f871fd3)
+[Python NumPy Array Tutorial](https://likegeeks.com/numpy-array-tutorial/)
+[How to Save and Load Your Keras Deep Learning Model
+](https://machinelearningmastery.com/save-load-keras-deep-learning-models/)
+[MNISTの画像をPNGに変換してみた](https://water2litter.net/rum/post/ai_mnist_convert/)
