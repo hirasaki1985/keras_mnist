@@ -5,6 +5,75 @@ import struct
 import glob
 
 class MnistImageManager:
+
+  def getMnistImageFromPng(self, filename):
+    """
+    指定されたパスからpng画像を読み込み、mnist形式に変換する
+    """
+    # print("MnistImageManager getMnistDataFromPng")
+    # print("filename = " + filename)
+
+    image = Image.open(filename)
+    img = self.getMnistImage(image)
+
+    return img
+
+  def getMnistImage(self, image, clear=20):
+    """
+    Imageオブジェクトをmnist形式に変換する
+    """
+    # convert and resize
+    # image = image.convert('L').resize((28, 28), c)
+    # image = image.convert('L').resize((28, 28))
+    image = image.convert('L').resize((28, 28), Image.LANCZOS)
+
+    img = np.asarray(image, dtype=float)
+    img = np.floor(56 - 56 * (img / 256))
+
+    # 反転
+    # img = np.rot90(img)
+    # img = np.flipud(img)
+
+    img = img.flatten()
+    #print(img)
+
+    # リサイズすると手書き文字がボケるので、明暗をはっきりさせる
+    if (clear is not None):
+      for i in range(img.size):
+        pixel = int(img[i])
+        # print(pixel)
+        if (pixel > 0):
+          img[i] = pixel * clear
+
+    return img
+
+  def saveMnistToPng(self, data, file_name, base_directory='./handwrites/', predict=None):
+    """
+    mnist形式のデータをpng画像として保存する
+    """
+    img = Image.new('L', (28,28))
+    pix = img.load()
+
+    d = data.reshape(28, 28)
+    for i in range(28):
+      for j in range(28):
+        pix[i, j] = int(d[j][i])
+
+    # img = ImageOps.invert(img)
+    # img = img.resize((224,224), Image.BICUBIC)
+
+    if (predict is None):
+      img.save(base_directory + file_name + '.png')
+    else:
+      img.save(base_directory + file_name + str(predict) + '.png')
+
+
+
+
+
+
+
+# 未使用
   def getInputDataFromPng(self, filename):
     print("MnistImageManager getInputDataFromPng")
     print("filename = " + filename)
@@ -18,27 +87,6 @@ class MnistImageManager:
 
     return img
     # return features_data, label_data
-
-  #def __init__(self):
-  def getMnistImageFromPng(self, filename):
-    # print("MnistImageManager getMnistDataFromPng")
-    # print("filename = " + filename)
-
-    image = Image.open(filename)
-    img = self.getMnistImage(image)
-
-    return img
-
-  def getMnistImage(self, image):
-    #image = image.convert('L').resize((28, 28), c)
-    #image = image.convert('L').resize(28, 28)
-    image = image.convert('L').resize((28, 28), Image.ANTIALIAS)
-    #image.show()
-    img = np.asarray(image, dtype=float)
-    img = np.floor(56 - 56 * (img / 256))
-    img = img.flatten()
-    #print(img)
-    return img
 
   def getDataList(self, filter):
     # print("MnistImageManager getDataList")

@@ -6,16 +6,22 @@ from PIL import Image
 import base64
 from io import BytesIO
 import numpy as np
+from datetime import datetime
 from app.ai import AI
 from app.utils import log
 from app.utils.MnistImageManager import MnistImageManager
 
+# consts
+## 手書き文字を保存するかしないか
+IS_SAVE_HANDWRITES=False
+
 # modules
 logger = log.get()
 imageManager = MnistImageManager()
-
-app = Flask(__name__)
 ai = AI()
+
+# flask
+app = Flask(__name__)
 
 @app.route('/')
 def web_page():
@@ -26,38 +32,29 @@ def predict():
   # constant values
   end_file_key_name = 'file'
 
-  # request print
-  #logger.debug("body: %s" % request.get_data())
-  # logger.debug(request.get_data())
-
   # get param
-  # request_data = request.get_json()
-  # logger.debug(request_data)
   if end_file_key_name not in request.form:
     return jsonify({"result":"error"})
 
   request_img_file = request.form[end_file_key_name]
-  logger.debug(request_img_file)
+  # logger.debug(request_img_file)
 
   # get image
   image = Image.open(BytesIO(base64.b64decode(request_img_file)))
 
   # get mnist image
   x_test = imageManager.getMnistImage(image)
-  logger.debug(x_test.shape)
+  # logger.debug(x_test.shape)
 
   # reshape mnist image
   input_arr = np.array(x_test)
   input_arr = input_arr.reshape(1, 784)
-  logger.debug(input_arr.shape)
-
-  # save
-  # request_file.save(os.path.join('predicts', 'image.png'))
+  # logger.debug(input_arr.shape)
 
   # predict
   predict_result = ai.predict(input_arr)
-  logger.debug(predict_result.shape)
-  logger.debug(predict_result)
+  # logger.debug(predict_result.shape)
+  # logger.debug(predict_result)
 
   # result
   accuracy = json.dumps(predict_result[0].tolist())
@@ -68,6 +65,18 @@ def predict():
     "y":accuracy,
     "max": max
   }
+  logger.info(result)
+
+  now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+  # save handwrites
+  if (IS_SAVE_HANDWRITES):
+    imageManager.saveMnistToPng(
+      data = x_test,
+      file_name = now + '_mnist',
+      predict = max
+    )
+    image.save('./handwrites/' + now + '_png.png')
 
   # response
   return result
