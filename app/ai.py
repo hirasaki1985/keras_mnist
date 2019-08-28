@@ -18,22 +18,35 @@ class AI:
   def __init__(self,
       model_path = './weights/mnist_mlp_model.json',
       weight_path = './weights/mnist_mlp_weights.h5'):
+
+    # mnistデータの管理を行うクラス
     self.imageManager = MnistImageManager()
+
+    # modelデータへのパス
     self.model_path = model_path
+
+    # weightデータへのパス
     self.weight_path = weight_path
 
-  def predict(self, x_test):
-    # get model
-    model = self.getModel()
+    # modelのロード
+    self.model = self.getModel()
 
-    # create input
-    # image = Image.open(BytesIO(base64.b64decode(img_file.value)))
-    # input_x = self.getInputImage(image)
+  def predict(self, x_test):
+    """
+    推論を行う
+
+    Parameters
+    ----------
+    x_test : numpy.shape = (x, 784)　の推論したい画像データ
+    """
 
     # predict
-    return model.predict(x_test, batch_size=1, verbose=0)
+    return self.model.predict(x_test, batch_size=1, verbose=0)
 
   def getModelFromJson(self):
+    """
+    jsonファイルからmodelの読み込みを行う
+    """
     json_file = open(self.model_path, 'r')
     loaded_model_json = json_file.read()
     json_file.close()
@@ -50,8 +63,12 @@ class AI:
     return model
 
   def getModel(self):
+    """
+    modelを作成して返す
+    """
     num_classes = 10
 
+    # create model
     model = Sequential()
     model.add(Dense(512, activation='relu', input_shape=(784,)))
     model.add(Dropout(0.2))
@@ -65,7 +82,15 @@ class AI:
                   optimizer=RMSprop(),
                   metrics=['accuracy'])
 
+    # load weights
+    model.load_weights(self.weight_path)
+    model._make_predict_function()
+
     return model
 
+
+
+
+# 未使用
   def getInputImage(image):
     self.imageManager.getMnistImage(image)

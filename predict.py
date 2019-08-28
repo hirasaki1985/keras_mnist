@@ -33,7 +33,7 @@ def main(args):
   accuracy = json.dumps(predict_result[0].tolist())
   max = int(np.argmax(predict_result[0]))
 
-  # result
+  # make response data
   result = {
     "y":accuracy,
     "max": max
