@@ -1,6 +1,6 @@
-flask
+flask==1.1.1
 numpy
-tensorflow
-keras
+tensorflow==1.14.0
+keras==2.2.4
 jupyter
 pillow
