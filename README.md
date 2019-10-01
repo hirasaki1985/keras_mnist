@@ -26,6 +26,8 @@ $ source ~/.bash_profile
 ```
 
 ```
+$ pyenv install 3.7.0
+$ pyenv local 3.7.0
 $ pyenv install anaconda3-5.3.1
 $ pyenv virtualenv anaconda3-5.3.1 keras-mnist
 $ pyenv local keras-mnist
